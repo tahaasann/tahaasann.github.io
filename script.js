@@ -5,5 +5,5 @@ let name = document.querySelector("#name");
         
             name.innerHTML = veri.value;
             
-            alert('Hoşgeldiniz ${name.innerHTML}');
+            alert(`Hoşgeldiniz ${name.innerHTML}`);
 })
