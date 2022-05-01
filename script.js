@@ -4,8 +4,6 @@ let name = document.querySelector("#name");
         buton.addEventListener("click",function(){
         
             name.innerHTML = veri.value;
-            if(veri.value = "Taha S. ASAN")
-            {
-                alert("Hoşgeldin Taha Bey");
-            }
+            
+            alert(`Hoşgeldiniz ${name.innerHTML}`);
 })
