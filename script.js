@@ -3,5 +3,9 @@ let name = document.querySelector("#name");
         let buton = document.querySelector("#ekle");
         buton.addEventListener("click",function(){
         
-            name.innerHTML = veri.value;       
+            name.innerHTML = veri.value;
+            if(veri.value = "Taha S. ASAN")
+            {
+                alert("Hoşgeldin Taha Bey");
+            }
 })
