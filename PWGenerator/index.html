@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Random Şifre Oluşturucu</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Random Şifre Oluşturucu</h1>
+    <form>
+      <label for="length">Şifre Uzunluğu:</label>
+      <input type="number" min="4" max="20" id="length" name="length" value="8">
+      <br>
+      <input type="checkbox" id="uppercase" name="uppercase" value="uppercase">
+      <label for="uppercase">Büyük harfler</label>
+      <br>
+      <input type="checkbox" id="numbers" name="numbers" value="numbers">
+      <label for="numbers">Sayılar</label>
+      <br>
+      <input type="checkbox" id="special" name="special" value="special">
+      <label for="special">Özel karakterler</label>
+      <br>
+      <button type="button" onclick="generatePassword()">Şifre Oluştur</button>
+    </form>
+    <p id="password"></p>
+  </div>
+</body>
+
+</html>
