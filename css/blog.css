@@ -13,6 +13,8 @@ https://templatemo.com/tm-552-video-catalog
     justify-content: center;
     font: 3rem 'Montserrat', sans-serif;
     color: white;
+    border-radius: 30px;
+    width: 100%
 }
 
 .cumbus {
@@ -24,7 +26,7 @@ https://templatemo.com/tm-552-video-catalog
         yellow 83%,
         #80ff80 100%);
     background-size: 300% 300%;
-    animation. degis 5s infinite linear;
+    animation: degis 5s infinite linear;
 }
 
 @keyframes degis {
@@ -256,7 +258,7 @@ h2, p { color: #666666; }
     justify-content: center;
     background-color: rgba(0,0,0,0.4);
     cursor: pointer;
-    transition: all 0.3s ease: ;
+    
 }
 
 .tm-overlay-icon {
@@ -444,8 +446,7 @@ video {
 }
 
 #contact-select:not([multiple]) {
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  
   background-position: right 15px center;
   background-repeat: no-repeat;
   background-image: url(../img/select-arrow.png);
