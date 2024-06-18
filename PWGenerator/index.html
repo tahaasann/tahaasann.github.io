@@ -1,32 +1,73 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Random Şifre Oluşturucu</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-
 <body>
-  <div class="container">
-    <h1>Random Şifre Oluşturucu</h1>
-    <form>
-      <label for="length">Şifre Uzunluğu:</label>
-      <input type="number" min="4" max="20" id="length" name="length" value="8">
-      <br>
-      <input type="checkbox" id="uppercase" name="uppercase" value="uppercase">
-      <label for="uppercase">Büyük harfler</label>
-      <br>
-      <input type="checkbox" id="numbers" name="numbers" value="numbers">
-      <label for="numbers">Sayılar</label>
-      <br>
-      <input type="checkbox" id="special" name="special" value="special">
-      <label for="special">Özel karakterler</label>
-      <br>
-      <button type="button" onclick="generatePassword()">Şifre Oluştur</button>
-    </form>
-    <p id="password"></p>
-  </div>
-</body>
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">@tahaasann</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../html/blockchain.html">Blockchain</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./PWGenerator/index.html">Password Generator</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
 
+    <main class="container mt-5">
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Random Password Generator</h1>
+            <p class="lead">Create secure random passwords with custom options.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="length">Password Length:</label>
+                        <input type="number" class="form-control" id="length" name="length" min="4" max="20" value="8">
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="uppercase" name="uppercase">
+                        <label class="form-check-label" for="uppercase">Include Uppercase Letters</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="numbers" name="numbers">
+                        <label class="form-check-label" for="numbers">Include Numbers</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="special" name="special">
+                        <label class="form-check-label" for="special">Include Special Characters</label>
+                    </div>
+                    <button type="button" class="btn btn-primary mt-3" onclick="generatePassword()">Generate Password</button>
+                </form>
+                <p id="password" class="mt-3"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Taha's Portfolio</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

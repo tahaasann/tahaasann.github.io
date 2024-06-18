@@ -1,47 +1,24 @@
-body{
-        font-family: 'Roboto', sans-serif;
-        background: rgb(104,61,234);
-        background: linear-gradient(336deg, rgba(104,61,234,1) 0%, rgba(207,45,150,1) 100%);
- }
-  
-  .container {
-    background-color: white;
-    padding: 20px;
-    margin: 0 auto;
-    width: 50%;
-    border-radius: 10px;
-    box-shadow: 2px 2px 2px #ccc;
-  }
-  
-  input[type="number"] {
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  input[type="checkbox"] {
-    margin: 8px 0;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
-  #password {
-    font-size: 24px;
-    margin-top: 20px;
-  }
-  
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(336deg, rgba(104,61,234,1) 0%, rgba(207,45,150,1) 100%);
+  margin: 0;
+  padding: 0;
+}
+
+.jumbotron {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 2rem;
+}
