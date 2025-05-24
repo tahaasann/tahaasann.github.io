@@ -1,0 +1,105 @@
+/* Ana style.css dosyasından genel stilleri import ettiğimiz varsayılıyor */
+/* Örneğin: */
+/* @import url("style.css"); */
+
+/* sessions.html'e özel düzenlemeler */
+body {
+    /* Genel body stilini burada tekrar tanımlayabiliriz ya da import ettiğimizden emin oluruz */
+    padding: 20px;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px; /* Ders listesi için daha dar bir konteyner */
+}
+
+#noSessionsMessage {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#savedSessionsList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#savedSessionsList li {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap; /* Mobil uyumluluk için */
+}
+
+#savedSessionsList li span {
+    font-weight: bold;
+    color: #444;
+    flex-basis: 70%; /* İsim için geniş yer bırak */
+    white-space: nowrap; /* İsmi tek satırda tutmaya çalış */
+    overflow: hidden; /* Taşarsa gizle */
+    text-overflow: ellipsis; /* ... ile göster */
+}
+
+#savedSessionsList li .session-actions {
+    display: flex;
+    gap: 8px;
+    flex-basis: 28%; /* Butonlar için kalan yer */
+    justify-content: flex-end; /* Butonları sağa hizala */
+}
+
+#savedSessionsList li .session-actions button {
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    flex-grow: 1; /* Butonların esnek genişlemesi */
+    max-width: 100px; /* Çok büyümemeleri için */
+}
+
+#savedSessionsList li .session-actions .load-btn {
+    background-color: #3498db; /* Mavi yükle butonu */
+}
+
+#savedSessionsList li .session-actions .load-btn:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+#savedSessionsList li .session-actions .delete-btn {
+    background-color: #e74c3c; /* Kırmızı sil butonu */
+}
+
+#savedSessionsList li .session-actions .delete-btn:hover:not(:disabled) {
+    background-color: #c0392b;
+}
+
+/* Mobil uyumluluk için */
+@media (max-width: 600px) {
+    #savedSessionsList li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    #savedSessionsList li span {
+        flex-basis: 100%;
+        text-align: left;
+    }
+    #savedSessionsList li .session-actions {
+        flex-basis: 100%;
+        justify-content: flex-start;
+    }
+}

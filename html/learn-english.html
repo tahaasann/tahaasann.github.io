@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LinguaLink Lite</title>
+        <link rel="stylesheet" href="../css/english-style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>LinguaLink Lite</h1>
+            <p>
+                İngilizce metninizi ve Türkçe çevirisini aşağıdaki kutulara
+                yapıştırın. Ardından "Metinleri Hazırla" butonuna tıklayarak
+                eşleştirmeye başlayın.
+            </p>
+
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="englishInput">İngilizce Metin:</label>
+                    <textarea
+                        id="englishInput"
+                        rows="10"
+                        placeholder="İngilizce paragrafınızı buraya yapıştırın..."
+                    ></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="turkishInput">Türkçe Çeviri:</label>
+                    <textarea
+                        id="turkishInput"
+                        rows="10"
+                        placeholder="Türkçe çeviriyi buraya yapıştırın..."
+                    ></textarea>
+                </div>
+            </div>
+
+            <button id="processTextsBtn">Metinleri Hazırla</button>
+            <p id="statusMessage" class="status-message"></p>
+
+            <div class="display-section">
+                <div class="english-side">
+                    <div class="text-display" id="englishDisplay"></div>
+                    <button
+                        id="clearEnglishSelectionBtn"
+                        class="clear-selection-btn"
+                        disabled
+                    >
+                        İngilizce Seçimi Temizle
+                    </button>
+                </div>
+                <div class="turkish-side">
+                    <div class="text-display" id="turkishDisplay"></div>
+                    <button
+                        id="clearTurkishSelectionBtn"
+                        class="clear-selection-btn"
+                        disabled
+                    >
+                        Türkçe Seçimi Temizle
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="pairButton" disabled>
+                    Seçili İfadeleri Eşleştir
+                </button>
+                <button id="saveSessionBtn" disabled>Dersi Kaydet</button>
+                <button id="resetButton" disabled>Uygulamayı Sıfırla</button>
+                <a
+                    href="sessions.html"
+                    target="_blank"
+                    class="button-link"
+                    id="viewSessionsBtn"
+                    disabled
+                    >Kaydedilen Dersleri Görüntüle</a
+                >
+            </div>
+        </div>
+
+        <script src="../js/english-script.js"></script>
+    </body>
+</html>
