@@ -11,6 +11,9 @@ const statusMessage = document.getElementById('statusMessage');
 const viewSessionsBtn = document.getElementById('viewSessionsBtn');
 const clearEnglishSelectionBtn = document.getElementById('clearEnglishSelectionBtn'); // Yeni buton
 const clearTurkishSelectionBtn = document.getElementById('clearTurkishSelectionBtn'); // Yeni buton
+const exportSessionsBtn = document.getElementById('exportSessionsBtn');
+const importSessionsFile = document.getElementById('importSessionsFile');
+const importSessionsBtn = document.getElementById('importSessionsBtn');
 
 // Uygulama Durum Değişkenleri
 let selectedEnglishSpans = new Set(); // Seçili İngilizce span'leri tutar (Set, tekrarları önler)
@@ -110,6 +113,9 @@ function enablePairingMode() {
     viewSessionsBtn.removeAttribute('disabled'); // 'disabled' HTML niteliğini kaldır
     clearEnglishSelectionBtn.disabled = false;
     clearTurkishSelectionBtn.disabled = false;
+    // script.js - enablePairingMode fonksiyonu içinde
+    clearTurkishSelectionBtn.disabled = false;
+    exportSessionsBtn.disabled = false; // <<< BU SATIRI EKLEYİN <<<
 }
 
 /**
@@ -124,6 +130,9 @@ function disablePairingMode() {
     viewSessionsBtn.setAttribute('disabled', 'true'); // 'disabled' HTML niteliğini ekle
     clearEnglishSelectionBtn.disabled = true;
     clearTurkishSelectionBtn.disabled = true;
+    // script.js - disablePairingMode fonksiyonu içinde
+    clearTurkishSelectionBtn.disabled = true;
+    exportSessionsBtn.disabled = true; // <<< BU SATIRI EKLEYİN <<<
 }
 
 // ### Metin İşleme ve Yükleme ###
@@ -586,6 +595,79 @@ function loadSession(sessionId) {
     }
 }
 
+// script.js - loadSession fonksiyonundan sonra veya uygun bir yere ekleyin
+
+/**
+ * Tüm kaydedilmiş dersleri bir JSON dosyası olarak dışa aktarır.
+ */
+function exportSessions() {
+    const allSessions = getSavedSessions();
+    if (allSessions.length === 0) {
+        statusMessage.textContent = 'Dışa aktarılacak ders bulunmamaktadır.';
+        setTimeout(() => statusMessage.textContent = '', 2000);
+        return;
+    }
+
+    const dataStr = JSON.stringify(allSessions, null, 2); // JSON'ı daha okunur hale getir
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `linguajournal_backup_${new Date().toISOString().split('T')[0]}.json`; // Örn: linguajournal_backup_2024-05-25.json
+    document.body.appendChild(a); // Elementi DOM'a ekle (görünmez)
+    a.click(); // Otomatik tıklama ile indirimi başlat
+    document.body.removeChild(a); // Elementi DOM'dan kaldır
+    URL.revokeObjectURL(url); // Bellek sızıntısını önle
+
+    statusMessage.textContent = 'Tüm dersler başarıyla dışa aktarıldı!';
+    setTimeout(() => statusMessage.textContent = '', 2000);
+}
+
+/**
+ * Bir JSON dosyasından dersleri içe aktarır.
+ */
+function importSessions(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        statusMessage.textContent = 'Dosya seçilmedi.';
+        setTimeout(() => statusMessage.textContent = '', 2000);
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const importedSessions = JSON.parse(e.target.result);
+            if (!Array.isArray(importedSessions)) {
+                throw new Error('İçe aktarılan dosya geçerli bir ders listesi içermiyor.');
+            }
+
+            const existingSessions = getSavedSessions();
+            let importedCount = 0;
+            let skippedCount = 0;
+
+            importedSessions.forEach(newSession => {
+                // Eğer aynı ID'ye sahip bir ders zaten varsa atla (veya güncelleme mantığı ekleyebiliriz)
+                if (!existingSessions.some(s => s.id === newSession.id)) {
+                    existingSessions.push(newSession);
+                    importedCount++;
+                } else {
+                    skippedCount++;
+                }
+            });
+
+            saveSessions(existingSessions); // Güncellenmiş listeyi kaydet
+            statusMessage.textContent = `Başarıyla ${importedCount} ders içe aktarıldı. ${skippedCount} ders atlandı.`;
+            setTimeout(() => statusMessage.textContent = '', 4000);
+        } catch (error) {
+            statusMessage.textContent = 'Dosya okunamadı veya formatı hatalı: ' + error.message;
+            setTimeout(() => statusMessage.textContent = '', 4000);
+        }
+    };
+    reader.readAsText(file); // Dosyayı metin olarak oku
+}
+
 /**
  * Tüm uygulamayı sıfırlar.
  */
@@ -644,3 +726,9 @@ document.addEventListener('DOMContentLoaded', () => {
         history.replaceState({}, document.title, window.location.pathname);
     }
 });
+
+// script.js - En alttaki event listener'lar bölümüne ekleyin
+// Yeni "Dışa Aktar" ve "İçe Aktar" butonları için listener'lar
+exportSessionsBtn.addEventListener('click', exportSessions);
+importSessionsBtn.addEventListener('click', () => importSessionsFile.click()); // Butona tıklanınca input'u tetikle
+importSessionsFile.addEventListener('change', importSessions); // Dosya seçildiğinde içe aktar
