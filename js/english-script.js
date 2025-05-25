@@ -13,7 +13,7 @@ const clearEnglishSelectionBtn = document.getElementById('clearEnglishSelectionB
 const clearTurkishSelectionBtn = document.getElementById('clearTurkishSelectionBtn'); // Yeni buton
 const exportSessionsBtn = document.getElementById('exportSessionsBtn');
 const importSessionsFile = document.getElementById('importSessionsFile');
-const importSessionsBtn = document.getElementById('importSessionsBtn');
+const triggerImportBtn = document.getElementById('triggerImportBtn'); // <<< triggerImportBtn olarak değişti
 
 // Uygulama Durum Değişkenleri
 let selectedEnglishSpans = new Set(); // Seçili İngilizce span'leri tutar (Set, tekrarları önler)
@@ -116,6 +116,7 @@ function enablePairingMode() {
     // script.js - enablePairingMode fonksiyonu içinde
     clearTurkishSelectionBtn.disabled = false;
     exportSessionsBtn.disabled = false; // <<< BU SATIRI EKLEYİN <<<
+    triggerImportBtn.removeAttribute('disabled'); // <<< BU SATIRI DİKKATLİCE GÜNCELLEYİN <<<
 }
 
 /**
@@ -133,6 +134,7 @@ function disablePairingMode() {
     // script.js - disablePairingMode fonksiyonu içinde
     clearTurkishSelectionBtn.disabled = true;
     exportSessionsBtn.disabled = true; // <<< BU SATIRI EKLEYİN <<<
+    triggerImportBtn.setAttribute('disabled', 'true'); // <<< BU SATIRI DİKKATLİCE GÜNCELLEYİN <<<
 }
 
 // ### Metin İşleme ve Yükleme ###
@@ -730,5 +732,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // script.js - En alttaki event listener'lar bölümüne ekleyin
 // Yeni "Dışa Aktar" ve "İçe Aktar" butonları için listener'lar
 exportSessionsBtn.addEventListener('click', exportSessions);
-importSessionsBtn.addEventListener('click', () => importSessionsFile.click()); // Butona tıklanınca input'u tetikle
-importSessionsFile.addEventListener('change', importSessions); // Dosya seçildiğinde içe aktar
+// triggerImportBtn.addEventListener('click', () => importSessionsFile.click()); // <<< BU SATIRI SİLİN <<<
+importSessionsFile.addEventListener('change', importSessions); // <<< BU SATIR KALACAK >>>

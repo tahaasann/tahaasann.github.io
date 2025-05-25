@@ -9,6 +9,11 @@
     <body>
         <div class="container">
             <h1>LinguaLink Lite</h1>
+            <div style="text-align: center; margin-top: 30px">
+                <a href="sessions.html" style="text-decoration: none"
+                    >Tüm Derslerine Eriş</a
+                >
+            </div>
             <p>
                 İngilizce metninizi ve Türkçe çevirisini aşağıdaki kutulara
                 yapıştırın. Ardından "Metinleri Hazırla" butonuna tıklayarak
@@ -67,24 +72,17 @@
                 <button id="saveSessionBtn" disabled>Dersi Kaydet</button>
 
                 <!-- YENİ EKLENECEK BUTONLAR BAŞLANGICI -->
-                <button id="exportSessionsBtn" disabled>
-                    Tüm Dersleri Dışa Aktar (Yedekle)
-                </button>
-                <input
-                    type="file"
-                    id="importSessionsFile"
-                    accept=".json"
-                    style="display: none"
-                />
-                <button id="importSessionsBtn">
-                    Dersleri İçe Aktar (Yükle)
-                </button>
+                <div class="file-upload-container">
+                    <button id="triggerImportBtn">
+                        Dersleri İçe Aktar (Yükle)
+                    </button>
+                    <input type="file" id="importSessionsFile" accept=".json" />
+                </div>
                 <!-- YENİ EKLENECEK BUTONLAR BİTİŞİ -->
 
                 <button id="resetButton" disabled>Uygulamayı Sıfırla</button>
                 <a
                     href="sessions.html"
-                    target="_blank"
                     class="button-link"
                     id="viewSessionsBtn"
                     disabled

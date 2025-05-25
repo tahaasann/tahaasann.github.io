@@ -427,3 +427,61 @@ button:disabled {
         max-width: unset;
     }
 }
+
+/* style.css - Buton stillerinin altına veya uygun bir yere ekleyin */
+
+.file-upload-container {
+    position: relative; /* İçindeki input'u konumlandırmak için */
+    overflow: hidden; /* Taşmaları gizle */
+    display: inline-block; /* Diğer butonlarla aynı hizada kalması için */
+    margin: 0; /* Varsayılan marginleri sıfırla, flexbox içinde hizalamak için */
+    flex-grow: 1; /* Esnek genişlik */
+    max-width: 250px; /* Butonların çok büyümesini engelle */
+    min-width: 150px; /* Minimum genişlik (mobil için) */
+}
+
+.file-upload-container #triggerImportBtn {
+    /* Bu butonun stili, diğer butonlarla aynı olmalı */
+    width: 100%;
+    margin: 0; /* Üstteki flexbox marginlerini sıfırlamak için */
+    padding: 12px 25px; /* Diğer butonlarla aynı padding */
+    background-color: #3498db; /* İçe aktarma için farklı bir renk (mavi) */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.file-upload-container #triggerImportBtn:hover:not(:disabled) {
+    background-color: #2980b9; /* Hover rengi */
+    transform: translateY(-2px);
+}
+
+.file-upload-container #importSessionsFile {
+    position: absolute; /* Butonun üzerine katmanlamak için */
+    left: 0;
+    top: 0;
+    opacity: 0; /* Gözle görünmez yap */
+    font-size: 100px; /* Tıklama alanını butondan büyük yapmak için (mobil uyumluluk) */
+    cursor: pointer;
+    width: 100%; /* Kapsayıcısını doldur */
+    height: 100%; /* Kapsayıcısını doldur */
+    z-index: 2; /* Butonun üzerinde olmasını sağla */
+}
+
+/* Butonun devre dışı görünmesini sağlamak için */
+.file-upload-container #triggerImportBtn[disabled] {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    pointer-events: none; /* Tıklamayı tamamen engelle */
+}
+
+/* Mobil Duyarlılık - action-buttons içindeki yeni yapı için */
+@media (max-width: 768px) {
+    .file-upload-container {
+        width: 100%;
+        max-width: unset; /* Mobil'de tam genişlik alsın */
+    }
+}
