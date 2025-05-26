@@ -110,9 +110,8 @@ function enablePairingMode() {
     turkishInput.disabled = true;
     resetButton.disabled = false;
     saveSessionBtn.disabled = false;
-    viewSessionsBtn.removeAttribute('disabled'); // 'disabled' HTML niteliğini kaldır
+    //viewSessionsBtn.removeAttribute('disabled'); // 'disabled' HTML niteliğini kaldır
     clearEnglishSelectionBtn.disabled = false;
-    clearTurkishSelectionBtn.disabled = false;
     // script.js - enablePairingMode fonksiyonu içinde
     clearTurkishSelectionBtn.disabled = false;
     exportSessionsBtn.disabled = false; // <<< BU SATIRI EKLEYİN <<<
@@ -122,19 +121,18 @@ function enablePairingMode() {
 /**
  * Uygulamanın seçim ve eşleştirme modunu devre dışı bırakır.
  */
+// english-script.js - disablePairingMode fonksiyonu
 function disablePairingMode() {
     processTextsBtn.disabled = false;
     englishInput.disabled = false;
     turkishInput.disabled = false;
     resetButton.disabled = true;
     saveSessionBtn.disabled = true;
-    viewSessionsBtn.setAttribute('disabled', 'true'); // 'disabled' HTML niteliğini ekle
+    //viewSessionsBtn.setAttribute('disabled', 'true');
     clearEnglishSelectionBtn.disabled = true;
     clearTurkishSelectionBtn.disabled = true;
-    // script.js - disablePairingMode fonksiyonu içinde
-    clearTurkishSelectionBtn.disabled = true;
-    exportSessionsBtn.disabled = true; // <<< BU SATIRI EKLEYİN <<<
-    triggerImportBtn.setAttribute('disabled', 'true'); // <<< BU SATIRI DİKKATLİCE GÜNCELLEYİN <<<
+    exportSessionsBtn.disabled = true; // <<< exportSessionsBtn HTML'de varsa bu satır hata vermez
+    triggerImportBtn.setAttribute('disabled', 'true'); // <<< triggerImportBtn HTML'de varsa bu satır hata vermez
 }
 
 // ### Metin İşleme ve Yükleme ###
@@ -630,22 +628,27 @@ function exportSessions() {
  * Bir JSON dosyasından dersleri içe aktarır.
  */
 function importSessions(event) {
+    console.log('importSessions function called.'); // <-- Ekle
     const file = event.target.files[0];
     if (!file) {
+        console.log('No file selected.'); // <-- Ekle
         statusMessage.textContent = 'Dosya seçilmedi.';
         setTimeout(() => statusMessage.textContent = '', 2000);
         return;
     }
-
+    console.log('File selected:', file.name); // <-- Ekle
     const reader = new FileReader();
     reader.onload = function (e) {
+        console.log('File loaded by FileReader.'); // <-- Ekle
         try {
             const importedSessions = JSON.parse(e.target.result);
+            console.log('Parsed importedSessions:', importedSessions); // <-- Ekle
             if (!Array.isArray(importedSessions)) {
                 throw new Error('İçe aktarılan dosya geçerli bir ders listesi içermiyor.');
             }
 
             const existingSessions = getSavedSessions();
+            console.log('Existing sessions before import:', existingSessions); // <-- Ekle
             let importedCount = 0;
             let skippedCount = 0;
 
@@ -660,9 +663,11 @@ function importSessions(event) {
             });
 
             saveSessions(existingSessions); // Güncellenmiş listeyi kaydet
+            console.log('Sessions saved to localStorage. Imported:', importedCount, 'Skipped:', skippedCount); // <-- Ekle
             statusMessage.textContent = `Başarıyla ${importedCount} ders içe aktarıldı. ${skippedCount} ders atlandı.`;
             setTimeout(() => statusMessage.textContent = '', 4000);
         } catch (error) {
+            console.error('Error during import:', error); // <-- Ekle
             statusMessage.textContent = 'Dosya okunamadı veya formatı hatalı: ' + error.message;
             setTimeout(() => statusMessage.textContent = '', 4000);
         }
@@ -717,6 +722,8 @@ clearTurkishSelectionBtn.addEventListener('click', () => clearSelectionInLanguag
 // Uygulama yüklendiğinde
 document.addEventListener('DOMContentLoaded', () => {
     disablePairingMode(); // Başlangıçta butonları devre dışı bırak
+
+    viewSessionsBtn.removeAttribute('disabled');
 
     // URL'den loadSession parametresini kontrol et
     const urlParams = new URLSearchParams(window.location.search);
