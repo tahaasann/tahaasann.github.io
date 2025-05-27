@@ -230,12 +230,6 @@ button:disabled {
 
 /* Eşleştirilmiş Spanlerin Ortak Arka Planı (Dikdörtgen görünüm için) */
 .char-span.paired-bg {
-    background-color: rgba(
-        200,
-        200,
-        200,
-        0.2
-    ); /* Çok hafif, şeffaf gri arka plan */
 }
 
 /* Renk Paleti (Farklı Çiftler İçin) - ARTIK METİN RENGİ İÇİN KULLANILACAK */
@@ -243,7 +237,7 @@ button:disabled {
 :root {
     --pair-color-0: #ff6b6b; /* Canlı Kırmızı */
     --pair-color-1: #4ecdc4; /* Turkuaz */
-    --pair-color-2: #45b7d1; /* Gökyüzü Mavisi */
+    --pair-color-2: #19a0be; /* Gökyüzü Mavisi */
     --pair-color-3: #f5b041; /* Parlak Turuncu */
     --pair-color-4: #a0d6b4; /* Yumuşak Nane Yeşili */
     --pair-color-5: #bb8fce; /* Orta Mor */
@@ -262,7 +256,7 @@ button:disabled {
     --pair-color-18: #20b2aa; /* Açık Deniz Yeşili */
     --pair-color-19: #ffa07a; /* Açık Somon */
     --pair-color-20: #b0c4de; /* Açık Çelik Mavisi (tekrar, farklı ton) */
-    --pair-color-21: #f4a460; /* Kum Rengi Kahverengi */
+    --pair-color-21: #af611c; /* Kum Rengi Kahverengi */
     --pair-color-22: #dda0dd; /* Erik Moru */
     --pair-color-23: #8fbc8f; /* Koyu Deniz Yeşili */
     --pair-color-24: #ffb6c1; /* Açık Pembe 2 */
