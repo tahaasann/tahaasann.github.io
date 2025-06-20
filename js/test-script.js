@@ -328,8 +328,29 @@ nextQuestionBtn.addEventListener('click', () => {
 });
 
 endTestBtn.addEventListener('click', () => {
-    // Testi bitir her zaman ana öğrenme sayfasına yönlendirir
-    window.location.href = 'learn-english.html';
+    // Testi bitir butonuna basıldığında, mevcut soruları tamamlamış sayılmayız,
+    // o ana kadarki cevaplarla sonuçları gösteririz.
+    // Eğer hiç soru cevaplanmadıysa veya test zaten bittiyse farklı davranabilir.
+
+    if (currentQuestionIndex < testQuestions.length && userTestStats.totalAnswered > 0) {
+        // Eğer test devam ediyorsa ve en az bir soru cevaplandıysa,
+        // o ana kadarki sonuçları göster.
+        showTestResults();
+    } else if (testResultsContainer.style.display === 'block') {
+        // Eğer zaten sonuçlar ekranındaysa ve tekrar bu butona basılırsa
+        // (ki bu senaryo olmamalı çünkü buton gizleniyor olacak),
+        // ana sayfaya yönlendir. (Bu buton artık bu işlevi görmeyecek)
+        window.location.href = 'learn-english.html';
+    } else if (userTestStats.totalAnswered === 0 && testQuestions.length > 0) {
+        // Hiç soru cevaplanmadı ama test başlatıldıysa, bir uyarı verip ana sayfaya dönebilir
+        // veya boş sonuçları gösterebilir. Şimdilik ana sayfaya dönelim.
+        alert("Hiç soru cevaplamadan testi bitirdiniz.");
+        window.location.href = 'learn-english.html';
+    } else {
+        // Test zaten bittiyse (tüm sorular cevaplandıysa) veya hiç soru yoksa
+        // (bu durum initializeTest'te yakalanmalı ama yine de bir kontrol)
+        window.location.href = 'learn-english.html';
+    }
 });
 
 backToLearnPageBtn.addEventListener('click', () => {
