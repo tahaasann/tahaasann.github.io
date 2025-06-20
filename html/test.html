@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Öğrenme Testi - LinguaLink Lite</title>
+        <link rel="stylesheet" href="../css/english-style.css" />
+        <!-- Ana stil dosyası -->
+        <link rel="stylesheet" href="../css/test-style.css" />
+        <!-- Teste özel stiller (oluşturulacak) -->
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="learn-english.html" class="nav-logo"
+                    >LinguaLink Lite</a
+                >
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="learn-english.html" class="nav-link">Öğren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sessions.html" class="nav-link"
+                            >Kaydedilen Dersler</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a href="test.html" class="nav-link active">Test</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container test-page-container">
+            <!-- test-page-container sınıfı eklendi -->
+            <div class="test-section-container" id="testSectionContainer">
+                <h2>Öğrenme Testi</h2>
+                <p id="testLoadingMessage">
+                    Test verileri yükleniyor, lütfen bekleyin...
+                </p>
+                <div id="testArea" style="display: none">
+                    <!-- Başlangıçta gizli -->
+                    <div id="questionContainer">
+                        <p id="questionText"></p>
+                    </div>
+                    <div id="optionsContainer">
+                        <!-- Şıklar buraya JavaScript ile eklenecek -->
+                    </div>
+                    <p id="feedbackText" class="status-message"></p>
+                </div>
+                <div class="test-controls" style="display: none">
+                    <!-- Başlangıçta gizli -->
+                    <button id="nextQuestionBtn" style="display: none">
+                        Sonraki Soru
+                    </button>
+                    <button id="endTestBtn">Testi Bitir (Ana Sayfa)</button>
+                </div>
+                <div id="testResultsContainer" style="display: none">
+                    <h3>Test Sonuçları</h3>
+                    <p id="totalQuestions"></p>
+                    <p id="correctAnswers"></p>
+                    <p id="wrongAnswers"></p>
+                    <p id="accuracy"></p>
+                    <h4>Üzerinde Durulması Gerekenler:</h4>
+                    <ul id="areasToImproveList"></ul>
+                    <button
+                        id="backToLearnPageBtn"
+                        class="action-button"
+                        style="margin-top: 20px"
+                    >
+                        Öğrenmeye Geri Dön
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/test-script.js"></script>
+    </body>
+</html>

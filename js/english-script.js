@@ -14,6 +14,7 @@ const clearTurkishSelectionBtn = document.getElementById('clearTurkishSelectionB
 const exportSessionsBtn = document.getElementById('exportSessionsBtn');
 const importSessionsFile = document.getElementById('importSessionsFile');
 const triggerImportBtn = document.getElementById('triggerImportBtn'); // <<< triggerImportBtn olarak değişti
+const startTestBtn = document.getElementById('startTestBtn');
 
 // Uygulama Durum Değişkenleri
 let selectedEnglishSpans = new Set(); // Seçili İngilizce span'leri tutar (Set, tekrarları önler)
@@ -102,6 +103,22 @@ function createClickableSpans(text, container, lang) {
 }
 
 /**
+ * Kaydedilmiş ders olup olmadığını kontrol ederek test ve dışa aktarma butonlarının durumunu günceller.
+*/
+function updateTestAndExportButtonStates() {
+    const sessions = getSavedSessions();
+    const hasValidSessionsForTest = sessions.length > 0 && sessions.some(s => s.pairs && s.pairs.length > 0 && s.pairs.some(p => p.engRanges && p.engRanges.length > 0));
+    const hasAnySessionForExport = sessions.length > 0;
+
+    if (startTestBtn) {
+        startTestBtn.disabled = !hasValidSessionsForTest;
+    }
+    if (exportSessionsBtn) {
+        exportSessionsBtn.disabled = !hasAnySessionForExport;
+    }
+}
+
+/**
  * Uygulamanın seçim ve eşleştirme modunu etkinleştirir.
  */
 function enablePairingMode() {
@@ -110,11 +127,9 @@ function enablePairingMode() {
     turkishInput.disabled = true;
     resetButton.disabled = false;
     saveSessionBtn.disabled = false;
-    //viewSessionsBtn.removeAttribute('disabled'); // 'disabled' HTML niteliğini kaldır
     clearEnglishSelectionBtn.disabled = false;
     // script.js - enablePairingMode fonksiyonu içinde
     clearTurkishSelectionBtn.disabled = false;
-    exportSessionsBtn.disabled = false; // <<< BU SATIRI EKLEYİN <<<
     triggerImportBtn.removeAttribute('disabled'); // <<< BU SATIRI DİKKATLİCE GÜNCELLEYİN <<<
 }
 
@@ -128,11 +143,11 @@ function disablePairingMode() {
     turkishInput.disabled = false;
     resetButton.disabled = true;
     saveSessionBtn.disabled = true;
-    //viewSessionsBtn.setAttribute('disabled', 'true');
     clearEnglishSelectionBtn.disabled = true;
     clearTurkishSelectionBtn.disabled = true;
-    exportSessionsBtn.disabled = true; // <<< exportSessionsBtn HTML'de varsa bu satır hata vermez
     triggerImportBtn.setAttribute('disabled', 'true'); // <<< triggerImportBtn HTML'de varsa bu satır hata vermez
+    if (startTestBtn) startTestBtn.disabled = true;
+    if (exportSessionsBtn) exportSessionsBtn.disabled = true;
 }
 
 // ### Metin İşleme ve Yükleme ###
@@ -572,6 +587,7 @@ function saveCurrentSession() {
     allSessions.push(newSession);
     saveSessions(allSessions);
     statusMessage.textContent = `Ders "${sessionName}" başarıyla kaydedildi!`;
+    updateTestAndExportButtonStates(); // Test ve dışa aktarma butonlarını güncelle
     setTimeout(() => statusMessage.textContent = '', 2000);
 }
 
@@ -664,6 +680,7 @@ function importSessions(event) {
 
             saveSessions(existingSessions); // Güncellenmiş listeyi kaydet
             console.log('Sessions saved to localStorage. Imported:', importedCount, 'Skipped:', skippedCount); // <-- Ekle
+            updateTestAndExportButtonStates(); // Test ve dışa aktarma butonlarını güncelle
             statusMessage.textContent = `Başarıyla ${importedCount} ders içe aktarıldı. ${skippedCount} ders atlandı.`;
             setTimeout(() => statusMessage.textContent = '', 4000);
         } catch (error) {
@@ -689,6 +706,7 @@ function resetApp() {
     pairedElements = [];
 
     disablePairingMode(); // Butonları ve girişleri devre dışı bırak
+    updateTestAndExportButtonStates(); // Test ve dışa aktarma butonlarını güncelle
     statusMessage.textContent = 'Uygulama sıfırlandı. Yeni metinler girebilirsiniz.';
     setTimeout(() => statusMessage.textContent = '', 2000);
 
@@ -724,6 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
     disablePairingMode(); // Başlangıçta butonları devre dışı bırak
 
     viewSessionsBtn.removeAttribute('disabled');
+    updateTestAndExportButtonStates(); // Test ve dışa aktarma butonlarını güncelle
 
     // URL'den loadSession parametresini kontrol et
     const urlParams = new URLSearchParams(window.location.search);
@@ -734,6 +753,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // URL'yi temizle (history API ile)
         history.replaceState({}, document.title, window.location.pathname);
     }
+});
+
+// english-script.js - Mevcut listener'ların altına veya uygun bir yere
+startTestBtn.addEventListener('click', () => {
+    // Kaydedilmiş ders olup olmadığını kontrol et
+    const sessions = getSavedSessions();
+    if (sessions.length === 0 || sessions.every(s => s.pairs.length === 0)) {
+        statusMessage.textContent = "Testi başlatmak için önce en az bir dersi kaydedilmiş eşleştirmelerle oluşturmalısınız.";
+        setTimeout(() => statusMessage.textContent = '', 4000);
+        return;
+    }
+    window.location.href = 'test.html'; // test.html'e yönlendir
 });
 
 // script.js - En alttaki event listener'lar bölümüne ekleyin

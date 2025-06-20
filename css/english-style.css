@@ -1,3 +1,82 @@
+/* Navbar Stilleri */
+.navbar {
+    background-color: #2c3e50; /* Koyu mavi */
+    padding: 1rem 0;
+    position: fixed; /* Sayfanın üstünde sabit kalır */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Diğer elementlerin üzerinde olması için */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    color: #ecf0f1; /* Açık gri */
+    font-size: 1.8rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item {
+    /* Boş */
+}
+
+.nav-link {
+    color: #bdc3c7; /* Gri */
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #34495e; /* Daha açık koyu mavi */
+    color: #ecf0f1;
+}
+
+.nav-link.active {
+    /* Aktif sayfa linki */
+    background-color: #e74c3c; /* Kırmızı */
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Sayfa içeriğinin navbar'ın altına gelmesi için ana container'a padding-top */
+body > .container {
+    /* Sadece ana sayfadaki container'a etki etsin */
+    padding-top: 80px; /* Navbar yüksekliği + biraz boşluk */
+}
+
+/* Mobil Navbar için (isteğe bağlı, şimdilik basit tutalım) */
+@media (max-width: 768px) {
+    .nav-menu {
+        /* Daha sonra mobil menü (hamburger menü) eklenebilir */
+        /* Şimdilik sadece alt alta sıralansın veya gizlensin */
+        display: none; /* Veya flex-direction: column; gap: 10px; vb. */
+    }
+    .nav-container {
+        justify-content: center; /* Logoyu ortala */
+    }
+}
+
 /* Genel Ayarlar ve Reset */
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -477,5 +556,109 @@ button:disabled {
     .file-upload-container {
         width: 100%;
         max-width: unset; /* Mobil'de tam genişlik alsın */
+    }
+}
+
+/* sessions.css VEYA english-style.css dosyanıza ekleyin */
+
+#savedSessionsList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px 15px; /* Biraz daha kompakt padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    gap: 10px; /* Öğeler arası boşluk */
+}
+
+.session-details {
+    display: flex;
+    flex-direction: column; /* İsim ve tarihi alt alta almak için */
+    flex-grow: 1; /* Mümkün olduğunca yer kaplasın */
+    margin-right: 10px;
+}
+
+.session-name-container {
+    display: flex; /* Span ve input'u yan yana tutmak için (biri gizliyken) */
+    align-items: center;
+}
+
+.session-name-text {
+    font-weight: bold;
+    color: #444;
+    cursor: default;
+    font-size: 1.1em;
+}
+
+.session-name-input {
+    font-weight: bold;
+    color: #444;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.05em;
+    width: 100%; /* Kapsayıcısına göre genişlesin */
+    box-sizing: border-box;
+}
+
+.session-date {
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 3px;
+}
+
+#savedSessionsList li .session-actions {
+    display: flex;
+    gap: 6px; /* Butonlar arası daha az boşluk */
+    flex-shrink: 0; /* Butonların daralmamasını sağla */
+}
+
+#savedSessionsList li .session-actions button {
+    margin: 0;
+    padding: 6px 10px; /* İkonlu butonlar için padding */
+    font-size: 0.9rem;
+    border-radius: 6px;
+    display: inline-flex; /* İkon ve metni (varsa) ortalamak için */
+    align-items: center;
+    justify-content: center;
+    min-width: 38px; /* Sadece ikon için yeterli genişlik */
+}
+
+#savedSessionsList li .session-actions .icon {
+    width: 16px;
+    height: 16px;
+    /* Eğer buton içinde sadece ikon varsa: */
+    /* margin: 0; */
+}
+
+/* Düzenleme modundaki butonlar için özel renkler */
+#savedSessionsList li .session-actions .save-edit-btn {
+    background-color: #2ecc71; /* Yeşil */
+}
+#savedSessionsList li .session-actions .save-edit-btn:hover:not([disabled]) {
+    background-color: #27ae60;
+}
+#savedSessionsList li .session-actions .cancel-edit-btn {
+    background-color: #e74c3c; /* Kırmızı */
+}
+#savedSessionsList li .session-actions .cancel-edit-btn:hover:not([disabled]) {
+    background-color: #c0392b;
+}
+
+/* Mobil uyumluluk için ek ayarlar (gerekirse) */
+@media (max-width: 600px) {
+    #savedSessionsList li {
+        flex-direction: column;
+        align-items: flex-start; /* Mobil'de sola hizala */
+    }
+    .session-details {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    #savedSessionsList li .session-actions {
+        width: 100%;
+        justify-content: flex-start; /* Butonları sola hizala */
     }
 }

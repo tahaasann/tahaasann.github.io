@@ -1,0 +1,134 @@
+/* test-style.css - Sadece test sayfası için stiller */
+
+.test-page-container {
+    /* test.html'deki ana container için ek boşluk */
+    padding-top: 80px; /* Navbar yüksekliği kadar */
+}
+
+.test-section-container {
+    margin-top: 20px; /* Navbar'dan sonraki boşluk azaltıldı */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.test-section-container h2,
+.test-section-container h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#testLoadingMessage {
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    padding: 20px;
+}
+
+#questionContainer {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#questionText {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+    color: #2c3e50;
+}
+
+#optionsContainer {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(200px, 1fr)
+    ); /* Esnek şık düzeni */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#optionsContainer button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    background-color: #3498db; /* Şıklar için mavi */
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0; /* Butonların kendi margin'lerini sıfırla */
+}
+
+#optionsContainer button:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+#optionsContainer button.correct {
+    background-color: #2ecc71 !important; /* Yeşil - doğru */
+}
+
+#optionsContainer button.incorrect {
+    background-color: #e74c3c !important; /* Kırmızı - yanlış */
+}
+
+#optionsContainer button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.test-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.test-controls button {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+#testResultsContainer {
+    margin-top: 30px;
+    padding: 15px;
+    border-top: 1px dashed #ccc;
+}
+
+#testResultsContainer p {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    text-align: left; /* Sonuçları sola hizala */
+}
+
+#areasToImproveList {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+#areasToImproveList li {
+    margin-bottom: 5px;
+    color: #333; /* Genel metin rengi */
+}
+#areasToImproveList li .question-asked {
+    font-style: italic;
+    color: #555;
+}
+#areasToImproveList li .user-answer.incorrect-ans {
+    color: #e74c3c; /* Kullanıcının yanlış cevabı kırmızı */
+    text-decoration: line-through;
+}
+#areasToImproveList li .correct-answer-text {
+    color: #27ae60; /* Doğru cevabı yeşil ile göster */
+    font-weight: bold;
+}

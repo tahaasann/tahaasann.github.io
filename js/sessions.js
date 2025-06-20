@@ -36,11 +36,21 @@ function renderSavedSessions() {
         noSessionsMessage.style.display = 'none';
         allSessions.forEach(session => {
             const listItem = document.createElement('li');
+            listItem.dataset.sessionId = session.id; // Düzenleme modu için ID'yi li'ye ekle
             listItem.innerHTML = `
-                <span>${session.name} <small>(${session.createdAt})</small></span>
+                <div class="session-details">
+                    <div class="session-name-container">
+                        <span class="session-name-text">${session.name}</span>
+                        <input type="text" class="session-name-input" value="${session.name}" style="display: none;" />
+                    </div>
+                    <small class="session-date">(${session.createdAt})</small>
+                </div>
                 <div class="session-actions">
-                    <button class="load-btn" data-id="${session.id}">Yükle</button>
-                    <button class="delete-btn" data-id="${session.id}">Sil</button>
+                    <button class="edit-btn" data-id="${session.id}" title="İsmi Düzenle">Düzenle</button>
+                    <button class="load-btn" data-id="${session.id}" title="Yükle">Yükle</button>
+                    <button class="delete-btn" data-id="${session.id}" title="Sil">Sil</button>
+                    <button class="save-edit-btn" data-id="${session.id}" style="display: none;" title="Kaydet">Kaydet</button>
+                    <button class="cancel-edit-btn" data-id="${session.id}" style="display: none;" title="İptal">İptal</button>
                 </div>
             `;
             savedSessionsList.appendChild(listItem);
@@ -63,16 +73,61 @@ function deleteSession(sessionId) {
 
 // Event Delegation for Load/Delete buttons
 savedSessionsList.addEventListener('click', (event) => {
-    const target = event.target;
-    const sessionId = target.dataset.id;
+    const target = event.target.closest('button');
+    if (!target) return;
 
-    if (!sessionId) return; // Eğer data-id yoksa bir şey yapma
+    const sessionId = target.dataset.id;
+    const listItem = target.closest('li');
+
+    if (!sessionId || !listItem) return;
+
+    const nameSpan = listItem.querySelector('.session-name-text');
+    const nameInput = listItem.querySelector('.session-name-input');
+
+    // Butonları göster/gizle yardımcı fonksiyonu
+    const toggleEditModeView = (isEditing) => {
+        listItem.querySelector('.edit-btn').style.display = isEditing ? 'none' : 'inline-flex';
+        listItem.querySelector('.load-btn').style.display = isEditing ? 'none' : 'inline-flex';
+        listItem.querySelector('.delete-btn').style.display = isEditing ? 'none' : 'inline-flex';
+        listItem.querySelector('.save-edit-btn').style.display = isEditing ? 'inline-flex' : 'none';
+        listItem.querySelector('.cancel-edit-btn').style.display = isEditing ? 'inline-flex' : 'none';
+
+        nameSpan.style.display = isEditing ? 'none' : 'block'; // veya 'inline'
+        nameInput.style.display = isEditing ? 'block' : 'none'; // veya 'inline-block'
+        if (isEditing) {
+            nameInput.value = nameSpan.textContent; // Input'u güncel span değeriyle doldur
+            nameInput.focus();
+            nameInput.select();
+        }
+    };
 
     if (target.classList.contains('load-btn')) {
-        // index.html'e yönlendir ve session ID'sini URL parametresi olarak gönder
         window.location.href = `learn-english.html?loadSession=${sessionId}`;
     } else if (target.classList.contains('delete-btn')) {
-        deleteSession(sessionId);
+        deleteSession(sessionId); // Bu fonksiyon zaten saveSessions -> renderSavedSessions çağırıyor.
+    } else if (target.classList.contains('edit-btn')) {
+        toggleEditModeView(true);
+    } else if (target.classList.contains('save-edit-btn')) {
+        const newName = nameInput.value.trim();
+        if (newName) {
+            const allSessions = getSavedSessions();
+            const sessionIndex = allSessions.findIndex(s => s.id === sessionId);
+            if (sessionIndex > -1) {
+                allSessions[sessionIndex].name = newName;
+                saveSessions(allSessions); // Bu, renderSavedSessions'ı çağırarak arayüzü güncelleyecek
+                // ve düzenleme modundan çıkılmış olacak.
+            } else {
+                toggleEditModeView(false); // Bir sorun olursa düzenleme modundan çık
+            }
+        } else {
+            // İsim boş bırakılamaz uyarısı
+            nameInput.style.borderColor = 'red';
+            setTimeout(() => nameInput.style.borderColor = '#ccc', 2000);
+        }
+    } else if (target.classList.contains('cancel-edit-btn')) {
+        toggleEditModeView(false);
+        // Input değerini span'deki değere geri döndürmeye gerek yok çünkü renderSavedSessions her şeyi yeniden çizecek
+        // ya da bir sonraki edit'te span'den alacak.
     }
 });
 
