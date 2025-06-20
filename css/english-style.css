@@ -662,3 +662,19 @@ button:disabled {
         justify-content: flex-start; /* Butonları sola hizala */
     }
 }
+
+/* sessions.css veya english-style.css dosyanıza ekleyin */
+.button-danger {
+    background-color: #e74c3c; /* Kırmızı */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.button-danger:hover {
+    background-color: #c0392b; /* Koyu kırmızı */
+}

@@ -569,6 +569,7 @@ function saveCurrentSession() {
     // pairedElements'i serializable bir formata dönüştür
     // Sadece engRanges ve turRanges'i kaydediyoruz, DOM referanslarını değil.
     const serializablePairs = pairedElements.map(pair => ({
+        id: pair.pairId || generateUUID(), // Her bir eşleşmeye benzersiz bir ID ata
         colorClass: pair.colorClass,
         engRanges: pair.engRanges,
         turRanges: pair.turRanges

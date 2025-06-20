@@ -4,6 +4,7 @@ const STORAGE_KEY = 'linguaLinkSessions';
 // DOM Elementlerini Seçme
 const savedSessionsList = document.getElementById('savedSessionsList');
 const noSessionsMessage = document.getElementById('noSessionsMessage');
+const deleteAllSessionsBtn = document.getElementById('deleteAllSessionsBtn');
 
 /**
  * Tüm kaydedilmiş dersleri localStorage'dan alır.
@@ -55,6 +56,24 @@ function renderSavedSessions() {
             `;
             savedSessionsList.appendChild(listItem);
         });
+    }
+}
+
+/**
+ * Tüm kaydedilmiş dersleri siler.
+ */
+function deleteAllSessions() {
+    if (getSavedSessions().length === 0) {
+        alert("Silinecek ders bulunmamaktadır.");
+        return;
+    }
+    if (confirm('TÜM kaydedilmiş dersleri silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
+        if (confirm('Son bir kez soruyorum: GERÇEKTEN TÜM DERSLERİ SİLMEK İSTİYOR MUSUNUZ?')) {
+            localStorage.removeItem(STORAGE_KEY); // Tüm dersleri sil
+            localStorage.removeItem(STATS_STORAGE_KEY); // İlgili test istatistiklerini de sil
+            renderSavedSessions(); // Listeyi güncelle (boşaltacak)
+            alert("Tüm dersler ve ilgili test istatistikleri başarıyla silindi.");
+        }
     }
 }
 
@@ -130,6 +149,11 @@ savedSessionsList.addEventListener('click', (event) => {
         // ya da bir sonraki edit'te span'den alacak.
     }
 });
+
+// Yeni "Tüm Dersleri Sil" butonu için event listener
+if (deleteAllSessionsBtn) { // Butonun varlığını kontrol et (önemli)
+    deleteAllSessionsBtn.addEventListener('click', deleteAllSessions);
+}
 
 // Sayfa yüklendiğinde dersleri göster
 document.addEventListener('DOMContentLoaded', renderSavedSessions);

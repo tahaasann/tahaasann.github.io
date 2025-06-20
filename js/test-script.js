@@ -16,6 +16,7 @@ const wrongAnswers = document.getElementById('wrongAnswers');
 const accuracy = document.getElementById('accuracy');
 const areasToImproveList = document.getElementById('areasToImproveList');
 const backToLearnPageBtn = document.getElementById('backToLearnPageBtn');
+const STATS_STORAGE_KEY = 'linguaLinkTestStats';
 
 
 // Test Durumu İçin Global Değişkenler
@@ -237,8 +238,30 @@ function checkAnswer(selectedOption, selectedButton) {
     }
     userTestStats.questions.push(questionStat);
 
+    // Genel test istatistiklerini güncelle
+    updateGlobalTestStats(currentTestQuestion.originalItem.id, isCorrect);
+
     Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
     nextQuestionBtn.style.display = 'inline-block';
+}
+
+/**
+ * Genel test istatistiklerini localStorage'da günceller.
+ * @param {string} itemId Test edilen ifadenin ID'si.
+ * @param {boolean} isCorrect Cevap doğru mu?
+ */
+function updateGlobalTestStats(itemId, isCorrect) {
+    let stats = JSON.parse(localStorage.getItem(STATS_STORAGE_KEY)) || {};
+    if (!stats[itemId]) {
+        stats[itemId] = { correctCount: 0, wrongCount: 0, lastTested: new Date().toISOString() };
+    }
+    if (isCorrect) {
+        stats[itemId].correctCount++;
+    } else {
+        stats[itemId].wrongCount++;
+    }
+    stats[itemId].lastTested = new Date().toISOString();
+    localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(stats));
 }
 
 /**
@@ -256,19 +279,38 @@ function showTestResults() {
     accuracy.textContent = `Başarı Yüzdesi: %${acc}`;
 
     areasToImproveList.innerHTML = '';
-    const wrongAnswersDetail = userTestStats.questions.filter(q => !q.isCorrect);
+    const globalStats = JSON.parse(localStorage.getItem(STATS_STORAGE_KEY)) || {};
+    const itemsToImprove = [];
 
-    if (wrongAnswersDetail.length === 0 && userTestStats.totalAnswered > 0) {
+    // Tüm test edilmiş ifadeler üzerinden geçerek yanlış oranı yüksek olanları bul
+    for (const itemId in globalStats) {
+        const stat = globalStats[itemId];
+        const totalAnswersForItem = stat.correctCount + stat.wrongCount;
+        if (totalAnswersForItem > 0 && stat.wrongCount > 0) { // Sadece en az bir kez cevaplanmış ve yanlış yapılmışsa
+            // İfadeyi bulmak için allPairedItemsForTest'i kullan (bu liste test başında doluyor)
+            const originalItem = allPairedItemsForTest.find(item => item.id === itemId);
+            if (originalItem) {
+                itemsToImprove.push({
+                    ...originalItem,
+                    wrongCount: stat.wrongCount,
+                    correctCount: stat.correctCount,
+                    accuracy: totalAnswersForItem > 0 ? (stat.correctCount / totalAnswersForItem) * 100 : 0
+                });
+            }
+        }
+    }
+
+    itemsToImprove.sort((a, b) => b.wrongCount - a.wrongCount || a.accuracy - b.accuracy);
+    if (itemsToImprove.length === 0 && userTestStats.totalAnswered > 0 && userTestStats.wrong === 0) {
         const li = document.createElement('li');
-        li.textContent = "Harika! Tüm soruları doğru cevapladınız.";
+        li.textContent = "Harika! Bu testteki tüm soruları doğru cevapladınız ve genel olarak da iyi durumdasınız.";
         li.style.color = "green";
         areasToImproveList.appendChild(li);
-    } else if (wrongAnswersDetail.length > 0) {
-        wrongAnswersDetail.forEach(qStat => {
+    } else if (itemsToImprove.length > 0) {
+        itemsToImprove.slice(0, 10).forEach(item => { // En fazla 10 tanesini göster
             const li = document.createElement('li');
-            li.innerHTML = `Soru: <span class="question-asked">"${qStat.question}"</span> <br>
-                            Sizin Cevabınız: <span class="user-answer ${qStat.isCorrect ? '' : 'incorrect-ans'}">"${qStat.userAnswer}"</span> <br>
-                            Doğru Cevap: <span class="correct-answer-text">"${qStat.correctAnswer}"</span>`;
+            li.innerHTML = `İfade: <span class="original-text">"${item.english} / ${item.turkish}"</span> <br>
+                            <small>(Doğru: ${item.correctCount}, Yanlış: ${item.wrongCount}, Başarı: %${item.accuracy.toFixed(0)})</small>`;
             areasToImproveList.appendChild(li);
         });
     } else if (userTestStats.totalAnswered === 0) {
