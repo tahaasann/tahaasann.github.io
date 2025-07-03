@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const allPairedItems = [];
+        // 1. Eşleşmeleri saymak için bir Map oluştur
+        const pairCountsMap = new Map();
 
         allSessions.forEach(session => {
             if (!session.pairs || !session.englishText || !session.turkishText) return;
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         for (let i = startIdx; i <= endIdx; i++) {
                             if (engChars[i] && engChars[i] !== '\n') engPhrase += engChars[i];
                         }
-                        engPhrase += " "; // Aralıklar arasına boşluk
+                        engPhrase += " ";
                     });
                 }
 
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         for (let i = startIdx; i <= endIdx; i++) {
                             if (turChars[i] && turChars[i] !== '\n') turPhrase += turChars[i];
                         }
-                        turPhrase += " "; // Aralıklar arasına boşluk
+                        turPhrase += " ";
                     });
                 }
 
@@ -84,29 +85,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 turPhrase = turPhrase.trim();
 
                 if (engPhrase && turPhrase) {
-                    allPairedItems.push({
-                        english: engPhrase,
-                        turkish: turPhrase
-                    });
+                    // 2. Her çift için benzersiz bir anahtar oluştur
+                    const uniqueKey = `${engPhrase.toLowerCase()}|||${turPhrase.toLowerCase()}`;
+
+                    if (pairCountsMap.has(uniqueKey)) {
+                        // Eğer haritada varsa, sayacını artır
+                        pairCountsMap.get(uniqueKey).count++;
+                    } else {
+                        // Eğer yoksa, yeni bir giriş oluştur
+                        pairCountsMap.set(uniqueKey, {
+                            english: engPhrase,
+                            turkish: turPhrase,
+                            count: 1
+                        });
+                    }
                 }
             });
         });
+
+        // 3. Map'i bir diziye çevir ve en çok tekrar edilene göre sırala
+        const allPairedItems = Array.from(pairCountsMap.values());
+        allPairedItems.sort((a, b) => b.count - a.count);
 
         if (allPairedItems.length === 0) {
             loadingMessage.textContent = "Tekrar edilecek eşleşmiş ifade bulunamadı.";
             return;
         }
 
-        // Listeyi render etmeden önce container'ı temizle
         reviewListContainer.innerHTML = '';
 
+        // 4. Sıralanmış listeyi ekrana bas
         allPairedItems.forEach(item => {
             const reviewItemDiv = document.createElement('div');
             reviewItemDiv.className = 'review-item';
 
             const englishDiv = document.createElement('div');
             englishDiv.className = 'review-english';
-            englishDiv.textContent = item.english;
+
+            const englishTextSpan = document.createElement('span'); // Sadece metin için span
+            englishTextSpan.textContent = item.english;
+
+            englishDiv.appendChild(englishTextSpan);
+
+            // Eğer sayaç 1'den büyükse, sayacı gösteren span'i ekle
+            if (item.count > 1) {
+                const countSpan = document.createElement('span');
+                countSpan.className = 'review-item-count';
+                countSpan.textContent = `(x${item.count})`;
+                countSpan.title = `Bu ifade ${item.count} kez kaydedilmiş.`;
+                englishDiv.appendChild(countSpan);
+            }
+
             englishDiv.title = 'Dinlemek için tıkla';
             englishDiv.addEventListener('click', () => {
                 speakText(item.english);
