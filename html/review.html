@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Genel Tekrar - LinguaLink Lite</title>
+        <link rel="stylesheet" href="../css/english-style.css" />
+        <!-- Ana stil dosyası (navbar vb. için) -->
+        <link rel="stylesheet" href="../css/review-style.css" />
+        <!-- Bu sayfaya özel stiller -->
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="learn-english.html" class="nav-logo"
+                    >LinguaLink Lite</a
+                >
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="learn-english.html" class="nav-link">Öğren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sessions.html" class="nav-link"
+                            >Kaydedilen Dersler</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a href="test.html" class="nav-link">Test</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="review.html" class="nav-link active"
+                            >Genel Tekrar</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container review-page-container">
+            <h2>Genel Tekrar Listesi</h2>
+            <p>
+                Tüm derslerde eşleştirdiğiniz ifadeler aşağıda listelenmiştir.
+                İngilizce ifadeye tıklayarak sesli okunuşunu dinleyebilirsiniz.
+            </p>
+
+            <div id="reviewListContainer">
+                <p id="loadingMessage">
+                    Tekrar listesi hazırlanıyor, lütfen bekleyin...
+                </p>
+                <!-- Eşleşmiş ifadeler buraya JavaScript ile eklenecek -->
+            </div>
+        </div>
+
+        <script src="../js/review-script.js"></script>
+    </body>
+</html>
