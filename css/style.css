@@ -1,37 +1,241 @@
+/* Ana Stil Dosyası: style.css */
+
+:root {
+    --primary-color: #683dea;
+    --secondary-color: #cf2d96;
+    --dark-blue: #2c3e50;
+    --light-gray: #ecf0f1;
+    --white: #ffffff;
+    --text-color: #333;
+}
+
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(336deg, rgba(104,61,234,1) 0%, rgba(207,45,150,1) 100%);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--secondary-color) 100%
+    );
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: var(--text-color);
 }
 
-main {
-  flex: 1;
+.main-content {
+    flex: 1;
+    padding-top: 80px; /* Navbar için boşluk */
 }
 
-.jumbotron {
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Navbar (LinguaLink ile Tutarlı) */
+.main-header {
+    background-color: var(--dark-blue);
+    padding: 1rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    color: var(--light-gray);
+    font-size: 1.8rem;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-link {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #34495e;
+    color: var(--light-gray);
+}
+
+/* Karşılama Alanı (Hero Section) */
+.hero-section {
+    max-width: 1000px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #555;
+    margin-bottom: 2.5rem;
+}
+
+.hero-button {
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--secondary-color) 100%
+    );
+    color: var(--white);
+    text-decoration: none;
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+}
+
+.hero-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(104, 61, 234, 0.4);
+}
+
+/* Özellik Kartları */
+.hero-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3.5rem;
+    text-align: left;
+}
+
+.feature-card {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.feature-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Link Kartları Alanı */
+.link-section {
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
 .card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden; /* Header'ın köşelerini de yuvarlak yapar */
 }
 
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
+.card-header {
+    background-color: #f8f9fa;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e9ecef;
 }
 
-footer {
-  background-color: #343a40;
-  color: white;
-  text-align: center;
-  padding: 1rem 0;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
+.card-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-body li {
+    margin-bottom: 0.8rem;
+}
+
+.card-body a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.card-body a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Footer */
+.main-footer {
+    background-color: var(--dark-blue);
+    color: var(--light-gray);
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: auto; /* İçeriği iterek en altta kalmasını sağlar */
+}
+
+/* Mobil Cihazlar için Ayarlar */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none; /* Mobil için hamburger menü eklenebilir, şimdilik gizli */
+    }
+    .nav-container {
+        justify-content: center;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
 }
